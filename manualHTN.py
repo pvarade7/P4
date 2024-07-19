@@ -18,6 +18,22 @@ def op_craft_wooden_axe_at_bench (state, ID):
 		return state
 	return False
 
+def op_craft_plank (state, ID):
+	if state.time[ID] >= 1 and state.wood[ID] >= 1:
+		state.plank[ID] += 4
+		state.wood[ID] -= 1
+		state.time[ID] -= 1
+		return state
+	return False
+
+def op_craft_stick (state, ID):
+	if state.time[ID] >= 1 and state.plank[ID] >= 2:
+		state.stick [ID] += 4
+		state.plank[ID] -= 1
+		state.time[ID] -= 1
+		return state
+	return False
+
 # your code here
 
 pyhop.declare_operators (op_punch_for_wood, op_craft_wooden_axe_at_bench)
@@ -70,6 +86,8 @@ state.time = {'agent': 4}
 # state.time = {'agent': 46}
 state.wooden_axe = {'agent': 0}
 state.made_wooden_axe = {'agent': False}
+state.plank = {'agent': 0}
+state.stick = {'agent': 0}
 # your code here 
 
 # pyhop.print_operators()
