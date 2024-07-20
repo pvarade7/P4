@@ -42,7 +42,7 @@ def op_wooden_axe_for_wood (state, ID):
 	return False
 
 
-pyhop.declare_operators (op_punch_for_wood, op_craft_wooden_axe_at_bench)
+pyhop.declare_operators (op_punch_for_wood, op_craft_wooden_axe_at_bench, op_craft_plank, op_craft_stick, op_wooden_axe_for_wood)
 
 '''end operators'''
 
@@ -55,7 +55,13 @@ def produce_enough (state, ID, item, num):
 
 def produce (state, ID, item):
 	if item == 'wood': 
+		if state.made_wooden_axe[ID] is True:
+			return [('wooden_axe_for_wood', ID)]
 		return [('produce_wood', ID)]
+	if item == 'plank':
+		return [('produce_plank', ID)]
+	if item == 'stick':
+		return [('produce_stick', ID)]
 	# your code here
 	elif item == 'wooden_axe':
 		# this check to make sure we're not making multiple axes
@@ -78,13 +84,13 @@ def punch_for_wood (state, ID):
 def craft_wooden_axe_at_bench (state, ID):
 	return [('have_enough', ID, 'bench', 1), ('have_enough', ID, 'stick', 2), ('have_enough', ID, 'plank', 3), ('op_craft_wooden_axe_at_bench', ID)]
 
-def op_craft_plank (state, ID):
+def craft_plank (state, ID):
 	return [('have_enough', ID, 'wood', 1), ('op_craft_plank', ID)]
 
-def op_craft_stick (state, ID):
+def craft_stick (state, ID):
 	return [('have_enough', ID, 'plank', 1), ('op_craft_stick', ID)]
 
-def op_wooden_axe_for_wood (state, ID):
+def wooden_axe_for_wood (state, ID):
 	return [('have_enough', ID, 'wooden_axe', 1), ('op_wooden_axe_for_wood', ID)]
 
 # your code here
