@@ -76,6 +76,7 @@ def produce (state, ID, item):
 pyhop.declare_methods ('have_enough', check_enough, produce_enough)
 pyhop.declare_methods ('produce', produce)
 
+
 '''begin recipe methods'''
 
 def punch_for_wood (state, ID):
@@ -96,10 +97,11 @@ def wooden_axe_for_wood (state, ID):
 # your code here
 
 pyhop.declare_methods ('produce_wood', punch_for_wood)
+pyhop.declare_methods ('produce_plank', craft_plank)
+pyhop.declare_methods ('produce_stick', craft_stick)
 pyhop.declare_methods ('produce_wooden_axe', craft_wooden_axe_at_bench)
-pyhop.declare_methods ('produce_plank', op_craft_plank)
-pyhop.declare_methods ('produce_stick', op_craft_stick)
-pyhop.declare_methods ('wooden_axe_for_wood', op_wooden_axe_for_wood)
+pyhop.declare_methods ('wooden_axe_for_wood', wooden_axe_for_wood)
+
 
 '''end recipe methods'''
 
@@ -114,8 +116,8 @@ state.plank = {'agent': 0}
 state.stick = {'agent': 0}
 # your code here 
 
-# pyhop.print_operators()
-# pyhop.print_methods()
+pyhop.print_operators()
+pyhop.print_methods()
 
 #pyhop.pyhop(state, [('have_enough', 'agent', 'wood', 1)], verbose=3)
 pyhop.pyhop(state, [('have_enough', 'agent', 'wood', 12)], verbose=3)
