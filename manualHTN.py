@@ -41,8 +41,16 @@ def op_wooden_axe_for_wood (state, ID):
 		return state
 	return False
 
+def op_craft_bench (state, ID):
+	if state.time[ID] >= 1 and state.plank[ID] >= 4:
+		state.bench += 1
+		state.time -= 1
+		state.plank -= 4
+		return state
+	return False
 
-pyhop.declare_operators (op_punch_for_wood, op_craft_wooden_axe_at_bench, op_craft_plank, op_craft_stick, op_wooden_axe_for_wood)
+
+pyhop.declare_operators (op_punch_for_wood, op_craft_wooden_axe_at_bench, op_craft_plank, op_craft_stick, op_wooden_axe_for_wood, op_craft_bench)
 
 '''end operators'''
 
@@ -54,21 +62,20 @@ def produce_enough (state, ID, item, num):
 	return [('produce', ID, item), ('have_enough', ID, item, num)]
 
 def produce (state, ID, item):
-	print("/n" + item)
 	if item == 'wood': 
 		if state.made_wooden_axe[ID] is True:
 			return [('wooden_axe_for_wood', ID)]
 		if state.plank[ID] >= 3 and state.stick[ID] >= 2:
 			return [('produce_wooden_axe', ID)]
-		if state.wood[ID] >= 1:
-			return [('produce_plank', ID)]
-		return [('produce_wood', ID)]
+		'''if state.wood[ID] >= 1:
+			return [('produce_plank', ID)]'''
+		return [('produce_wood', ID), ('produce_plank', ID)]
 	if item == 'plank':
-		if state.plank[ID] >= 2:
-			return [('produce_stick', ID)]
-		return [('produce_plank', ID)]
+		'''if state.plank[ID] >= 2:
+			return [('produce_stick', ID)]'''
+		return [('produce_plank', ID), ('produce_stick', ID)]
 	if item == 'stick':
-		return [('produce_stick', ID)]
+		return [('produce_stick', ID), ('produce_bench', ID) ('produce_wooden_axe', ID)]
 	# your code here
 	elif item == 'wooden_axe':
 		# this check to make sure we're not making multiple axes
@@ -101,12 +108,16 @@ def craft_stick (state, ID):
 def wooden_axe_for_wood (state, ID):
 	return [('have_enough', ID, 'wooden_axe', 1), ('op_wooden_axe_for_wood', ID)]
 
+def craft_bench (state, ID):
+	return [('have_enough', ID, 'plank', 4), ('op_craft_bench', ID)]
+
 # your code here
 
 pyhop.declare_methods ('produce_wood', wooden_axe_for_wood, punch_for_wood)
 pyhop.declare_methods ('produce_plank', craft_plank)
 pyhop.declare_methods ('produce_stick', craft_stick)
 pyhop.declare_methods ('produce_wooden_axe', craft_wooden_axe_at_bench)
+pyhop.declare_methods ('produce_bench', craft_bench)
 
 
 '''end recipe methods'''
@@ -120,6 +131,7 @@ state.wooden_axe = {'agent': 0}
 state.made_wooden_axe = {'agent': False}
 state.plank = {'agent': 0}
 state.stick = {'agent': 0}
+state.bench = {'agent': 0}
 # your code here 
 
 pyhop.print_operators()
