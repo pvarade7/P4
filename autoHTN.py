@@ -31,13 +31,23 @@ def declare_methods (data):
 	pass			
 
 def make_operator (rule):
+	requirements = []
+	produce = []
+	for requirement in rule.get('Requires'):
+		requirements.append(requirement)
+	for item in rule.get('Produces'):
+		produce.append(item)	
+	time_amount = rule.get('Time')
 	def operator (state, ID):
-		# your code here
+		if state.requirements[0].keys()[ID] >= requirements[0].values() and state.time[ID] >= time_amount:
+
 		pass
 	return operator
 
 def declare_operators (data):
 	# your code here
+	for recipe in data.get('Recipes'):
+		make_operator(recipe)
 	# hint: call make_operator, then declare the operator to pyhop using pyhop.declare_operators(o1, o2, ..., ok)
 	pass
 
